@@ -76,10 +76,10 @@ class ShopServiceTest {
 
         //WHEN
         Order actual = shopService.addOrder(productsIds);
-        shopService.updateOrder(actual, OrderStatus.IN_DELIVERY);
+        shopService.updateOrder(actual.id(), OrderStatus.IN_DELIVERY);
 
         //THEN
-        assertEquals(actual.orderStatus(), OrderStatus.IN_DELIVERY);
+        assertEquals(OrderStatus.IN_DELIVERY, shopService.getOrderRepo().getOrderById(actual.id()).orderStatus());
 
     }
 
