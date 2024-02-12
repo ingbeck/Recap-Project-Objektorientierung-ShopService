@@ -29,6 +29,12 @@ public class ShopService {
                 .toList();
     }
 
+    public void updateOrder(String orderID, OrderStatus orderStatus){
+        Order newOrder = orderRepo.addOrder(orderRepo.getOrderById(orderID).withOrderStatus(orderStatus));
+        orderRepo.removeOrder(orderID);
+        orderRepo.addOrder(newOrder);
+    }
+
     public OrderRepo getOrderRepo() {
         return orderRepo;
     }
