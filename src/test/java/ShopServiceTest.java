@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShopServiceTest {
 
     @Test
-    void addOrderTest() {
+    void addOrderTest() throws ProductNotFoundException {
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
@@ -23,7 +23,7 @@ class ShopServiceTest {
     }
 
     @Test
-    void addOrderTest_whenInvalidProductId_expectNull() {
+    void addOrderTest_whenInvalidProductId_expectNull() throws ProductNotFoundException{
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1", "2");
@@ -36,7 +36,7 @@ class ShopServiceTest {
     }
 
     @Test
-    void listAllOrdersByStatus_whenOrderStatusPROCESSING_thenReturnListOfAllOrdersWithStatusPROCESSING(){
+    void listAllOrdersByStatus_whenOrderStatusPROCESSING_thenReturnListOfAllOrdersWithStatusPROCESSING() throws ProductNotFoundException{
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
@@ -57,18 +57,15 @@ class ShopServiceTest {
     }
 
     @Test
-    void addOrder_whenProductNotExist_thenThrowProductNotFoundException(){
+    void addOrder_whenProductNotExist_thenThrowProductNotFoundException() throws ProductNotFoundException{
         //GIVEN
         ShopService shopService = new ShopService();
-        List<String> productsIds = List.of("1");
+        List<String> productsIds = List.of("1", "2");
 
         //WHEN
-        Order actual = shopService.addOrder(productsIds);
 
         //THEN
-        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING);
-        assertThrows(ProductNotFoundException.class,
-                () -> shopService.addOrder(productsIds));
+        assertThrows(ProductNotFoundException.class, () -> shopService.addOrder(productsIds));
 
     }
 
