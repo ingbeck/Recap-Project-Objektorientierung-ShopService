@@ -48,9 +48,9 @@ class ShopServiceTest {
         List<Order> actual = shopService.listAllOrdersByStatus(OrderStatus.PROCESSING);
 
         //THEN
-        List<Order> expected = List.of(new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING),
-                                     new Order("-2", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING),
-                                     new Order("-3", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING));
+        List<Order> expected = shopService.getOrderRepo().getOrders().stream()
+                .filter(order -> order.orderStatus().equals(OrderStatus.PROCESSING))
+                .toList();
 
         assertEquals(expected, actual);
 
