@@ -68,5 +68,20 @@ class ShopServiceTest {
 
     }
 
+    @Test
+    void updateOrder() throws ProductNotFoundException{
+        //GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1");
+
+        //WHEN
+        Order actual = shopService.addOrder(productsIds);
+        shopService.updateOrder(actual, OrderStatus.IN_DELIVERY);
+
+        //THEN
+        assertEquals(actual.orderStatus(), OrderStatus.IN_DELIVERY);
+
+    }
+
 
 }
