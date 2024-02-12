@@ -55,4 +55,22 @@ class ShopServiceTest {
         assertEquals(expected, actual);
 
     }
+
+    @Test
+    void addOrder_whenProductNotExist_thenThrowProductNotFoundException(){
+        //GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1");
+
+        //WHEN
+        Order actual = shopService.addOrder(productsIds);
+
+        //THEN
+        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING);
+        assertThrows(ProductNotFoundException.class,
+                () -> shopService.addOrder(productsIds));
+
+    }
+
+
 }
