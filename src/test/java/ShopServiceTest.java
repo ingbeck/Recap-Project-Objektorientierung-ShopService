@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShopServiceTest {
 
     @Test
-    void addOrderTest() {
+    void addOrderTest() throws ProductNotFoundException {
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
@@ -22,8 +21,8 @@ class ShopServiceTest {
         assertNotNull(expected.id());
     }
 
-    @Test
-    void addOrderTest_whenInvalidProductId_expectNull() {
+    /*@Test
+    void addOrderTest_whenInvalidProductId_expectNull() throws ProductNotFoundException{
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1", "2");
@@ -33,10 +32,10 @@ class ShopServiceTest {
 
         //THEN
         assertNull(actual);
-    }
+    }*/
 
     @Test
-    void listAllOrdersByStatus_whenOrderStatusPROCESSING_thenReturnListOfAllOrdersWithStatusPROCESSING(){
+    void listAllOrdersByStatus_whenOrderStatusPROCESSING_thenReturnListOfAllOrdersWithStatusPROCESSING() throws ProductNotFoundException {
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
@@ -55,4 +54,19 @@ class ShopServiceTest {
         assertEquals(expected, actual);
 
     }
+
+    @Test
+    void addOrder_whenProductNotExist_thenThrowProductNotFoundException() throws ProductNotFoundException{
+        //GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1", "2");
+
+        //WHEN
+
+        //THEN
+        assertThrows(ProductNotFoundException.class, () -> shopService.addOrder(productsIds));
+
+    }
+
+
 }
