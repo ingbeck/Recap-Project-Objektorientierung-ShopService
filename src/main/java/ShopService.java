@@ -1,3 +1,6 @@
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +20,11 @@ public class ShopService {
                 products.add(productToOrder.get());
         }
 
-        Order newOrder = new Order(UUID.randomUUID().toString(), products, OrderStatus.PROCESSING);
+        Instant instant = Instant.now();
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDateTime timestamp = instant.atZone(zoneId).toLocalDateTime();
+
+        Order newOrder = new Order(UUID.randomUUID().toString(), products, OrderStatus.PROCESSING, timestamp);
 
         return orderRepo.addOrder(newOrder);
     }
