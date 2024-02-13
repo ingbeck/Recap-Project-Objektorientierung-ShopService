@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,12 +14,15 @@ class ShopServiceTest {
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
+        Instant instant = Instant.now();
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDateTime timestamp = instant.atZone(zoneId).toLocalDateTime();
 
         //WHEN
         Order actual = shopService.addOrder(productsIds);
 
         //THEN
-        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING);
+        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING, timestamp);
         assertEquals(expected.products(), actual.products());
         assertNotNull(expected.id());
     }
@@ -56,7 +62,7 @@ class ShopServiceTest {
     }
 
     @Test
-    void addOrder_whenProductNotExist_thenThrowProductNotFoundException() throws ProductNotFoundException{
+    void addOrder_whenProductNotExist_thenThrowProductNotFoundException() {
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1", "2");
